@@ -2,4 +2,6 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    /*设置盒状模型*/
+    box-sizing: border-box;
 }

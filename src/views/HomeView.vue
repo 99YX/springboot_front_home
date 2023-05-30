@@ -3,13 +3,15 @@
     <el-container style="height: 100vh; border: 1px solid #eee">
                 <!--   overflow: hidden 宽度溢出   -->
                 <!--      overflow-x: hidden 侧边栏溢出部分隐藏-->
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246);height: 100vh;overflow: hidden"  >
+<!-- 侧边栏宽度根据收缩后动态获取     -->
+      <el-aside :width="sideWidth+'px'" style="background-color: rgb(238, 241, 246);height: 100vh;overflow: hidden"  >
         <el-menu :default-openeds="['1', '3']" style="height: 100vh;overflow-x: hidden"
 
                  background-color="rgb(48, 65, 86)"
                  text-color="#fff"
                  active-text-color="#ffd04b"
                  :collapse-transition="false"
+                 :collapse="isCollapse"
 
 
 
@@ -64,17 +66,22 @@
       </el-aside>
 
       <el-container>
-        <el-header style="text-align: right; font-size: 12px;border-bottom: 1px solid #cccccc;line-height: 60px">
+        <el-header style=" font-size: 12px;border-bottom: 1px solid #cccccc;line-height: 60px;display: flex">
          <!--   收缩按钮      -->
-          <el-dropdown>
+          <div style="flex: 1;font-size: 18px">
+            <!--   cursor: pointer 鼠标小手         -->
+          <span :class="collapseBtnClass" style="font-size: 18px" @click="collapse"></span>
+          </div>
+          <el-dropdown  style="width: 80px">
+            <span>王小虎</span><i class="el-icon-arrow-down" style="margin-left: 5px;pxcursor: pointer;"></i>
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
+              <el-dropdown-item>个人信息</el-dropdown-item>
+
+              <el-dropdown-item>退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>王小虎</span>
+
         </el-header>
 
         <el-main>
@@ -124,7 +131,13 @@ export default {
       address: '上海市普陀区金沙江路 1518 弄'
     };
     return {
-      tableData: Array(10).fill(item)
+      tableData: Array(10).fill(item),
+      /*折叠属性默认是开启状态*/
+      isCollapse:false,
+      /*收缩按钮名称*/
+      collapseBtnClass:'el-icon-s-fold',
+      /*侧边栏宽度默认是200*/
+      sideWidth:200
     }
 
   },
@@ -137,6 +150,24 @@ export default {
         return 'success-row';
       }
       return '';
+    },
+    /*折叠效果*/
+    collapse(){
+      /*点击后取反*/
+      this.isCollapse=!this.isCollapse
+      /*如果开启状态代表折叠了,则修改侧边栏宽度是64px*/
+      if(this.isCollapse)
+      {
+
+        //el-menu--collapse 折叠后宽度是64px
+        this.sideWidth=64
+
+
+      }
+
     }
-  }}
+  }
+
+
+}
 </script>
